@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
 import { Link } from 'react-router-dom'
@@ -6,17 +6,27 @@ import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function Login() {
 
-  function loginHandle(e) {
+export default function SignUp() {
+
+  const [role, setRole] = useState("");
+
+  const handleRoleChange=(e)=>{
+    setRole(e.target.value)
+    console.log(role);
+  }
+
+  function signupHandle(e) {
     e.preventDefault();
 
-    axios.post('https://ecommerce-sagartmg2.vercel.app/api/users/login', {
+    axios.post('https://ecommerce-sagartmg2.vercel.app/api/users/signup', {
+      name: e.target.username.value,
       email: e.target.email.value,
-      password: e.target.password.value
+      password: e.target.password.value,
+      role: role
     })
-      .then((response) => {
-        toast("Sign In successful");
+    .then((response) => {
+        toast("Sign Up successful");
       })
       .catch((error) => {
         if (error.response) {
@@ -31,8 +41,9 @@ export default function Login() {
           toast("Error occurred while processing the request");
         }
       });
-
   }
+
+
   return (
     <>
       <Header />
@@ -47,17 +58,23 @@ export default function Login() {
         </div>
       </div>
       <div className='container flex justify-center'>
-        <div className='bg-[#F8F8FB] max-w-[500px] flex flex-col items-center gap-[8px] p-[40px] my-[80px] '>
-          <p className='text-[2rem] font-[700]'>Login</p>
-          <p className='text-[0.8rem]'>Please login using account detail bellow.</p>
-          <form onSubmit={loginHandle} className='flex flex-col gap-[8px] w-[100%] text-[0.8rem] '>
+        <div className='bg-[#F8F8FB] max-w-[500px] flex flex-col items-center gap-[8px] px-[80px] p-[50px] my-[80px] '>
+          <p className='text-[2rem] font-[700]'>Sign Up</p>
+          <p className='text-[0.8rem]'>Create Your account.</p>
+          <form onSubmit={signupHandle} className='flex flex-col gap-[8px] w-[100%] text-[0.8rem] '>
+            <input type="text" name='username' placeholder='Username' className='border-2 p-[5px] rounded-lg' />
             <input type="email" name='email' placeholder='Email Address' className='border-2 p-[5px] rounded-lg' />
             <input type="password" name="password" placeholder='Password' className='border-2 p-[5px] rounded-lg' />
-            <p className='text-[0.8rem]'>Forgot your password?</p>
-            <button className='bg-[#FB2E86] text-[white] p-[6px]'>Sign In</button>
+            <input type="password" name="c-password" placeholder='Confirm Password' className='border-2 p-[5px] rounded-lg' />
+            <select value={role} onChange={handleRoleChange} className='border-2 p-[5px] rounded-lg'>
+              <option value="volvo">--</option>
+              <option value="buyer">Buyer</option>
+              <option value="seller">Seller</option>
+            </select>
+            <button className='bg-[#FB2E86] text-[white] p-[6px]'>Sign Up</button>
             <ToastContainer />
           </form>
-          <p className='text-[0.8rem]'>Don’t have an Account? <Link to={'/signun'} className='text-secondary'>  Create account </Link></p>
+          <p className='text-[0.8rem]'>Already have an Account?  <Link to={'/login'} className='text-secondary'>Login</Link></p>
 
         </div>
       </div>

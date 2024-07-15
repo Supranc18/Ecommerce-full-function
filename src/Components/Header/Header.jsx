@@ -69,17 +69,17 @@ export default function () {
             <div className=''>
               <div className={` ${hamBurgerMenu} bg-[#f3f3f3]  p-[10px] mx-[auto] rounded-[8px] justify-between items-start animate-increase overflow-hidden lg:flex lg:bg-[white] lg:animate-none`}>
                 <ul className={`lg:flex lg:gap-[40px] `}>
-                  <li className={`cursor-pointer hover:text-[#FB2E86] `}> <Link to={'/home'}>Home</Link> </li>
-                  <li className={`cursor-pointer hover:text-[#FB2E86]`}>Pages</li>
-                  <li className={`cursor-pointer hover:text-[#FB2E86] `}>Products</li>
-                  <li className={`cursor-pointer hover:text-[#FB2E86]`}>Blog</li>
-                  <li className={`cursor-pointer hover:text-[#FB2E86]`}>Shop</li>
-                  <li className={`cursor-pointer hover:text-[#FB2E86]`}>Contact</li>
+                  <li className={`cursor-pointer hover:text-secondary `}> <Link to={'/home'}>Home</Link> </li>
+                  <li className={`cursor-pointer hover:text-secondary`}><Link to={'/pages'}>Pages</Link></li>
+                  <li className={`cursor-pointer hover:text-secondary `}> <Link to={'/products'}>Products</Link></li>
+                  <li className={`cursor-pointer hover:text-[#FB2E86]`}> <Link to={'/blog'}>Blog</Link></li>
+                  <li className={`cursor-pointer hover:text-[#FB2E86]`}> <Link to={'/shop'}>Shop</Link>Shop</li>
+                  <li className={`cursor-pointer hover:text-[#FB2E86]`}> <Link to={'/contact'}>Contact</Link></li>
                 </ul>
                 <div>
                   <form onSubmit={submithandle} className={`flex lg:pl-[40px]`}>
                     <input className='border border-black' type="text" name='search' />
-                    <button className='bg-[#FB2E86] text-[white] p-[8px]'><CiSearch /></button>
+                    <button className='bg-[#FB2E86] text-[white] p-[8px] h-full'><CiSearch /></button>
                   </form>
                 </div>
                 <button onClick={hamburgerClose} className={`text-[20px] lg:hidden`}><IoMdClose /></button>

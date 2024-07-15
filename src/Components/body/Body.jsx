@@ -1,10 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import axios from 'axios';
+
+
 
 
 export default function () {
+    const [products, setProducts] = useState([])
+
+    useEffect(() => {
+        fetchProducts();
+    }, [])
+
+    function fetchProducts() {
+        axios.get('https://ecommerce-sagartmg2.vercel.app/api/products/trending')
+            .then((response) => {
+                setProducts(response.data.data)
+            })
+    }
 
     const settings = {
         dots: true,
@@ -16,7 +31,7 @@ export default function () {
     return (
         <>
             <section >
-                <Slider {...settings}>
+                <Slider {...settings} style={{ backgroundImage: "url('/promotion bg.png')" }}>
                     <div style={{ backgroundImage: "url('/promotion bg.png')" }}>
                         <div className='flex flex-col px-[55px] md:flex md:flex-row' >
                             <div className='max-w-[380px]'>
@@ -95,6 +110,18 @@ export default function () {
                         </div>
                     </div>
 
+                </div>
+
+                <div>
+                    <div>
+                        <h1>Leatest Products</h1>
+                    </div>
+                    {products.map((el) => {
+                        return <><li key={el.id}>{el.name}</li>
+                        <img src={el.image} alt="" />
+
+                        </>
+                    })}
                 </div>
             </section>
         </>
