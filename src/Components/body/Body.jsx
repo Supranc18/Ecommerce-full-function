@@ -112,17 +112,24 @@ export default function () {
 
                 </div>
 
-                <div>
-                    <div>
-                        <h1>Leatest Products</h1>
-                    </div>
-                    {products.map((el) => {
-                        return <><li key={el.id}>{el.name}</li>
-                        <img src={el.image} alt="" />
 
-                        </>
-                    })}
+                <div className='container flex flex-col r justify-center'>
+                    <h1 className='text-primary-dark font-[700] text-[2rem] mx-auto'>Leatest Products</h1>
+                    <div className='my-[60px] grid-cols-custom '>
+                        {products.map((el) => (
+                            <div key={el._id} className='w-[100%] flex flex-col gap-[10px] items-center bg-[#f0f0f0] p-[20px] rounded-[6px]'>
+                                <div className='bg-[#F6F7FB] w-[200px] h-[200px] flex items-center justify-center'>
+                                    <img src={el.image} alt={el.name} className='w-[100%]' />
+                                </div>
+                                <div className='flex justify-between w-[200px] text-primary-dark'>
+                                    <p>{el.name}</p>
+                                    <p>{el.price}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
+
             </section>
         </>
     )

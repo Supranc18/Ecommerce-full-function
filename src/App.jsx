@@ -7,12 +7,16 @@ import {
   Link,
 } from "react-router-dom";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 import './index.css'
 import Login from './Components/Login/Login';
 import Home from './Components/Home';
 import Contact from './Components/Contact/Contact';
 import SignUp from './Components/Login/SignUp';
+import Products from './Components/body/Products';
 
 
 
@@ -31,13 +35,20 @@ export default function App() {
       </>,
     },
     {
+      path: "products",
+      element: <>
+        <Products />
+      </>,
+    },
+    {
+
       path: "login",
       element: <>
         <Login />
       </>,
     },
     {
-      path: "signun",
+      path: "signup",
       element: <>
         <SignUp/>
       </>,
@@ -50,6 +61,8 @@ export default function App() {
     },
   ]);
 
-  return <RouterProvider router={router} />
+  return <> <RouterProvider router={router} />
+  <ToastContainer />
+  </>
 
 }

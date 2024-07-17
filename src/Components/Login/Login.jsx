@@ -1,15 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function Login() {
 
+  const[buttonDisable,setButtonDisable]=useState(false)
+  const[fielderr,setFieleErr]=useState({})
+
+
+  const navigateTo = useNavigate();
+
   function loginHandle(e) {
     e.preventDefault();
+    setButtonDisable(true)
 
     axios.post('https://ecommerce-sagartmg2.vercel.app/api/users/login', {
       email: e.target.email.value,
@@ -17,19 +24,27 @@ export default function Login() {
     })
       .then((response) => {
         toast("Sign In successful");
+        navigateTo('/home')
+       
       })
       .catch((error) => {
         if (error.response) {
           if (error.response.status === 400) {
-            toast("Please fill all the information");
-          } else {
-            toast("An error occurred while signing up");
+            let newError ={email:"",password:""}
+            error.response.data.errors.map((el)=>{
+              if (el.param==="email") {
+                newError.email ="email is required"
+              }
+              if (el.param==="password") {
+                newError.password ="password is required"
+              }
+              
+            })
+            setButtonDisable(false)
+            setFieleErr(newError)
+          } 
           }
-        } else if (error.request) {
-          toast("No response received from server");
-        } else {
-          toast("Error occurred while processing the request");
-        }
+        
       });
 
   }
@@ -48,16 +63,18 @@ export default function Login() {
       </div>
       <div className='container flex justify-center'>
         <div className='bg-[#F8F8FB] max-w-[500px] flex flex-col items-center gap-[8px] p-[40px] my-[80px] '>
-          <p className='text-[2rem] font-[700]'>Login</p>
+          <p className='text-[2rem] font-[700]'>Sign In</p>
           <p className='text-[0.8rem]'>Please login using account detail bellow.</p>
           <form onSubmit={loginHandle} className='flex flex-col gap-[8px] w-[100%] text-[0.8rem] '>
             <input type="email" name='email' placeholder='Email Address' className='border-2 p-[5px] rounded-lg' />
+            <span className='text-[red] text-[0.7]rem'>{fielderr.email}</span>
             <input type="password" name="password" placeholder='Password' className='border-2 p-[5px] rounded-lg' />
+            <span className='text-[red] text-[0.7]rem'>{fielderr.password}</span>
             <p className='text-[0.8rem]'>Forgot your password?</p>
-            <button className='bg-[#FB2E86] text-[white] p-[6px]'>Sign In</button>
-            <ToastContainer />
+            <button disabled={buttonDisable} className='disabled:cursor-no-drop bg-[#FB2E86] text-[white] p-[6px]'>Sign In</button>
+            
           </form>
-          <p className='text-[0.8rem]'>Don’t have an Account? <Link to={'/signun'} className='text-secondary'>  Create account </Link></p>
+          <p className='text-[0.8rem]'>Don’t have an Account? <Link to={'/signup'} className='text-secondary'>  Create account </Link></p>
 
         </div>
       </div>
