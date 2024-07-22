@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Header from '../Header/Header'
-import Footer from '../Footer/Footer'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
@@ -34,7 +32,7 @@ export default function SignUp() {
 
           .then((response) => {
             navigateTo('/login')
-            toast("Sign Up successful");
+            toast.success("Sign Up successful");
           })
           .catch((error) => {
 
@@ -42,6 +40,7 @@ export default function SignUp() {
 
 
             if (error?.response?.status === 400) {
+              toast.error("Sign Up Failed");
 
               let newFieldErr = { name: "", email: "", password: "" };
 
@@ -69,6 +68,7 @@ export default function SignUp() {
       }
 
       else {
+        toast.error("Sign Up Failed");
         setFieleErr({
           password: "password do not match",
           cpassword: "password do not match"
@@ -106,7 +106,6 @@ export default function SignUp() {
 
     return (
       <>
-        <Header />
         <div className='bg-[#F6F5FF] py-[70px] '>
           <div className='container'>
             <h1 className='text-primary-dark text-[2rem] font-[700]'>My Account</h1>
@@ -146,7 +145,6 @@ export default function SignUp() {
         <div className='mb-[50px] w-[100%] justify-center flex'>
           <img src="image 1174.png" alt="" className='w-[70%]' />
         </div>
-        <Footer />
       </>
     )
   }

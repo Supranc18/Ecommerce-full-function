@@ -1,11 +1,8 @@
 import React from 'react'
-import Header from '../Header/Header'
-import Footer from '../Footer/Footer'
 
 export default function () {
     return (
         <>
-            <Header />
 
             <div className='container text-[#8A8FB9] text-[0.8rem] flex flex-col py-[40px]'>
                 <div className='lg:flex lg:justify-between'>
@@ -71,7 +68,6 @@ export default function () {
 
             </div>
 
-            <Footer />
         </>
     )
 }

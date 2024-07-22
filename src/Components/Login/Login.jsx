@@ -1,35 +1,41 @@
 import React, { useState } from 'react'
-import Header from '../Header/Header'
-import Footer from '../Footer/Footer'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { setuser } from '../../redux/slices/userSlice';
 
-
-export default function Login() {
+export default function Login({setUser}) {
 
   const[buttonDisable,setButtonDisable]=useState(false)
   const[fielderr,setFieleErr]=useState({})
-
+ 
+  const dispatch =useDispatch()
 
   const navigateTo = useNavigate();
 
   function loginHandle(e) {
     e.preventDefault();
     setButtonDisable(true)
+    
+   
+  
 
     axios.post('https://ecommerce-sagartmg2.vercel.app/api/users/login', {
       email: e.target.email.value,
       password: e.target.password.value
     })
       .then((response) => {
-        toast("Sign In successful");
+        toast.success("Sign In successful");
         navigateTo('/home')
-       
+        dispatch(setuser(response.data.user))
+        localStorage.setItem('user',(JSON.stringify(response.data.user)))
+                 
       })
       .catch((error) => {
         if (error.response) {
           if (error.response.status === 400) {
+            toast.error("Sign In Failed");
             let newError ={email:"",password:""}
             error.response.data.errors.map((el)=>{
               if (el.param==="email") {
@@ -50,7 +56,6 @@ export default function Login() {
   }
   return (
     <>
-      <Header />
       <div className='bg-[#F6F5FF] py-[70px] '>
         <div className='container'>
           <h1 className='text-primary-dark text-[2rem] font-[700]'>My Account</h1>
@@ -81,7 +86,6 @@ export default function Login() {
       <div className='mb-[50px] w-[100%] justify-center flex'>
         <img src="image 1174.png" alt="" className='w-[70%]' />
       </div>
-      <Footer />
     </>
   )
 }

@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CiMail, CiSearch, CiUser } from 'react-icons/ci'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { IoMdClose } from 'react-icons/io'
 import { IoCartOutline } from 'react-icons/io5'
 import { LuPhoneCall } from 'react-icons/lu'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { setuser } from '../../redux/slices/userSlice'
+
 
 
 export default function () {
@@ -12,10 +15,17 @@ export default function () {
   const [hamBurgerMenu, setHamBurgerMenu] = useState("hidden")
   const [search, setSearch] = useState()
 
+  const dispatch = useDispatch()
+  let reduxUser = useSelector((store) => {
+    return store.user.value
+  })
+  let reducCart = useSelector((store) => {
+    return store.cart.value
+  })
+  const username = localStorage.getItem('user')
 
   function hamburgerhandle() {
     setHamBurgerMenu("!flex")
-    console.log("clicked");
 
 
   }
@@ -29,6 +39,13 @@ export default function () {
     e.preventDefault()
     setSearch(e.target.search.value)
   }
+
+
+  const logoutHandle = () => {
+    dispatch(setuser(null))
+    localStorage.removeItem('user')
+  }
+
 
   return (
     <>
@@ -46,25 +63,38 @@ export default function () {
               </div>
             </div>
             <div className='flex items-center gap-[16px]'>
-              <div className='flex items-center'>
+              <div className='flex items-center'>{reduxUser ? (
+                <>
+                  <div className='flex gap-2'>
+                    <p className='flex items-center'>{reduxUser.name}
+                      <CiUser />
+                    </p>
+                    <Link onClick={logoutHandle} to={'/login'} >Logout</Link>
+
+                  </div>
+                </>
+              ) : <>
                 <Link to={'/login'}>Login</Link>
                 <CiUser />
+              </>
+              }
+
               </div>
-              <div>
-                <IoCartOutline />
-              </div>
+
+              <Link to={'/cart'} className='flex items-center'><IoCartOutline className='text-[25px]' /><sup className={`bg-red-500 border w-4 h-4 rounded-[50%] text-[10px] flex justify-center items-center p-2  ${reducCart.length == 0 ? "hidden" : "block"}`}>{reducCart.length}</sup></Link>
+
             </div>
           </div>
         </div>
 
 
         <div className='container' >
-          <div className={`flex flex-col py-[10px] lg:flex-row lg:justify-between lg:items-start ` } >
+          <div className={`flex flex-col py-[10px] lg:flex-row lg:justify-between lg:items-start `} >
             <div className='flex items-center justify-between'>
-          <p className=' text-[1.1rem] md:text-[1.5rem] lg:text-[2.1rem] font-[600]'>Hekto</p>
-          <button onClick={hamburgerhandle} className={`${hamBurgerMenu === 'hidden' ? 'block' : 'hidden'} lg:hidden `}>
-              <GiHamburgerMenu />
-            </button>
+              <p className=' text-[1.1rem] md:text-[1.5rem] lg:text-[2.1rem] font-[600]'>Hekto</p>
+              <button onClick={hamburgerhandle} className={`${hamBurgerMenu === 'hidden' ? 'block' : 'hidden'} lg:hidden `}>
+                <GiHamburgerMenu />
+              </button>
             </div>
             <div className=''>
               <div className={` ${hamBurgerMenu} bg-[#f3f3f3]  p-[10px] mx-[auto] rounded-[8px] justify-between items-start animate-increase overflow-hidden lg:flex lg:bg-[white] lg:animate-none`}>

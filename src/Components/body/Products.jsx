@@ -1,7 +1,5 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import Header from '../Header/Header'
-import Footer from '../Footer/Footer'
 
 
 export default function Products() {
@@ -22,14 +20,14 @@ export default function Products() {
     
   return (
     <>
-    <Header/>
+   
     {products.map((el)=>{
         return<> <li key={el._id}>{el.name}</li>
         <img className='w-96' src={el.image} alt="" />
 </>
     })}
 
-    <Footer/>
+  
     </>
   )
 }
