@@ -27,9 +27,9 @@ export default function Login({setUser}) {
     })
       .then((response) => {
         toast.success("Sign In successful");
-        navigateTo('/home')
         dispatch(setuser(response.data.user))
-        localStorage.setItem('user',(JSON.stringify(response.data.user)))
+        localStorage.setItem('token',(response.data.access_token))
+        navigateTo('/')
                  
       })
       .catch((error) => {

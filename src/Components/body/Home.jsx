@@ -7,7 +7,7 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { space } from 'postcss/lib/list';
 import { IoCartOutline } from 'react-icons/io5';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setcart } from '../../redux/slices/cartSlice';
 
 
@@ -19,6 +19,7 @@ import { setcart } from '../../redux/slices/cartSlice';
 export default function () {
     const [products, setProducts] = useState([])
     const dispatch = useDispatch()
+    const reduxcart = useSelector((store)=>store.cart.value)
 
     useEffect(() => {
         fetchProducts();
@@ -32,10 +33,12 @@ export default function () {
     }
 
     const addToCart = (el) => {
-       let cartItem= localStorage.setItem('cart',(JSON.stringify(el)))
-    //    cartItem.push(el)
-       console.log(cartItem);
         dispatch(setcart(el))
+        console.log(reduxcart);
+        //  localStorage.setItem('cart', JSON.stringify(reduxcart))
+        //  let data= localStorage.getItem('cart')
+        // console.log(data);
+        
     }
 
     const settings = {
@@ -109,7 +112,7 @@ export default function () {
                                     <p className='text-secondary py-2'>{el.name}</p>
                                     <div className='flex justify-between items-center'>
                                         <p>Rs.{el.price}</p>
-                                        <IoCartOutline onClick={()=>{addToCart(el)}} className=' border bg-[green] rounded-[50%] text-white w-7 h-7 p-1 ' />
+                                        <IoCartOutline onClick={() => { addToCart(el) }} className=' border bg-[green] rounded-[50%] text-white w-7 h-7 p-1 ' />
                                     </div>
                                 </div>
 

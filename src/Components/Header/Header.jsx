@@ -19,7 +19,7 @@ export default function () {
   let reduxUser = useSelector((store) => {
     return store.user.value
   })
-  let reducCart = useSelector((store) => {
+  let reduxCart = useSelector((store) => {
     return store.cart.value
   })
   const username = localStorage.getItem('user')
@@ -43,7 +43,7 @@ export default function () {
 
   const logoutHandle = () => {
     dispatch(setuser(null))
-    localStorage.removeItem('user')
+    localStorage.removeItem('token')
   }
 
 
@@ -66,7 +66,7 @@ export default function () {
               <div className='flex items-center'>{reduxUser ? (
                 <>
                   <div className='flex gap-2'>
-                    <p className='flex items-center'>{reduxUser.name}
+                    <p className='flex items-center'>{reduxUser.name.toUpperCase()}
                       <CiUser />
                     </p>
                     <Link onClick={logoutHandle} to={'/login'} >Logout</Link>
@@ -81,7 +81,7 @@ export default function () {
 
               </div>
 
-              <Link to={'/cart'} className='flex items-center'><IoCartOutline className='text-[25px]' /><sup className={`bg-red-500 border w-4 h-4 rounded-[50%] text-[10px] flex justify-center items-center p-2  ${reducCart.length == 0 ? "hidden" : "block"}`}>{reducCart.length}</sup></Link>
+              <Link to={'/cart'} className='flex items-center'><IoCartOutline className='text-[25px]' /><sup className={`bg-red-500 border w-4 h-4 rounded-[50%] text-[10px] flex justify-center items-center p-2  ${reduxCart.length == 0 ? "hidden" : "block"}`}>{reduxCart.length}</sup></Link>
 
             </div>
           </div>
@@ -99,11 +99,11 @@ export default function () {
             <div className=''>
               <div className={` ${hamBurgerMenu} bg-[#f3f3f3]  p-[10px] mx-[auto] rounded-[8px] justify-between items-start animate-increase overflow-hidden lg:flex lg:bg-[white] lg:animate-none`}>
                 <ul className={`lg:flex lg:gap-[40px] `}>
-                  <li className={`cursor-pointer hover:text-secondary `}> <Link to={'/home'}>Home</Link> </li>
+                  <li className={`cursor-pointer hover:text-secondary `}> <Link to={'/'}>Home</Link> </li>
                   <li className={`cursor-pointer hover:text-secondary`}><Link to={'/pages'}>Pages</Link></li>
                   <li className={`cursor-pointer hover:text-secondary `}> <Link to={'/products'}>Products</Link></li>
                   <li className={`cursor-pointer hover:text-[#FB2E86]`}> <Link to={'/blog'}>Blog</Link></li>
-                  <li className={`cursor-pointer hover:text-[#FB2E86]`}> <Link to={'/shop'}>Shop</Link>Shop</li>
+                  <li className={`cursor-pointer hover:text-[#FB2E86]`}> <Link to={'/shop'}>Shop</Link></li>
                   <li className={`cursor-pointer hover:text-[#FB2E86]`}> <Link to={'/contact'}>Contact</Link></li>
                 </ul>
                 <div>

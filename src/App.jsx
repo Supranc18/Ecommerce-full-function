@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react'
+import React, { useEffect, useState} from 'react'
 
 import {
   createBrowserRouter,
@@ -19,10 +19,14 @@ import SignUp from './Components/Login/SignUp';
 import Products from './Components/body/Products';
 import RootLayout from './Components/RootLayout';
 import Home from './Components/body/Home';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setuser } from './redux/slices/userSlice';
 import Cart from './Components/Cart/Cart';
 import { setcart } from './redux/slices/cartSlice';
+import AdminLayout from './Components/AdminLayout';
+import axios from 'axios';
+import Addproducts from './Components/Admin/Addproducts';
+import AdminSideNav from './Components/Admin/AdminSideNav';
 
 
 
@@ -31,25 +35,52 @@ import { setcart } from './redux/slices/cartSlice';
 export default function App() {
   
   const dispatch =useDispatch()
+  const [isLoading, setisLoading] = useState(
+    localStorage.getItem("token") ? true : false
+)
+
+
 useEffect(()=>{
   
-let user =localStorage.getItem('user')
-if (user) {
-  dispatch(setuser(JSON.parse(user)))
+let token =localStorage.getItem('token')
+if (token) {
+  axios.get("https://ecommerce-sagartmg2.vercel.app/api/users/get-user",{
+    headers:{
+      Authorization:`Bearer ${token}`
+    }
+  }).then( (res)=>{
+    dispatch(setuser(res.data))
+    setisLoading(false)
+  })
+  .catch((err)=>{
+    localStorage.removeItem("token")
+    setisLoading(false)
+  })
+}
+else {
+  setisLoading(false)
 }
 },[])
 
-// useEffect(()=>{
+
+useEffect(()=>{
   
-//   let cart =localStorage.getItem('cart')
-//   if (cart) {
-//     dispatch(setcart(JSON.parse(cart)))
-//   }
-//   },[])
+  let cart =localStorage.getItem('cart')
+ 
+  if (cart) {
+    dispatch(setcart(JSON.parse(cart))) 
+  }
+  },[])
 
 
 
-  const router = createBrowserRouter([
+  let reduxUser = useSelector((store) => {
+    return store.user.value
+  })
+ 
+  let router;
+
+   router = createBrowserRouter([
 
     {path:"",
       element: <RootLayout/>,
@@ -57,15 +88,16 @@ if (user) {
         {
           path: "/",
           element: (
-            <Login/>
+            <Home />
           ),
         },
         {
-          path: "home",
+          path: "logins",
           element: <>
-            <Home />
+            <Login/>
           </>,
         },
+       
         {
           path: "products",
           element: <>
@@ -103,6 +135,30 @@ if (user) {
     
   ]);
 
+  if (reduxUser?.role=="seller") {
+    router = createBrowserRouter([
+      {path:"",
+        element: <AdminLayout/>,
+        children:[
+          {
+          path: "addproduct",
+          element: (
+            <Addproducts/>
+          ),
+          
+        }
+          
+        ]
+      }
+        
+        ]);
+  }
+
+
+  if (isLoading) {
+    return <>loading.....</>
+  }
+  
   return <> <RouterProvider router={router} />
   <ToastContainer />
   </>

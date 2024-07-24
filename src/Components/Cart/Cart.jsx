@@ -9,7 +9,6 @@ export default function Cart() {
     let reduxCart = useSelector((store) => {
         return store.cart.value
     })
-    console.log(reduxCart);
 
     function changehandel(e) {
         setQuantity(e.target.value)
@@ -39,7 +38,7 @@ export default function Cart() {
                     <p>Total</p>
                 </div>
             </div>
-            {reduxCart==[] ? (<p>Your cart is empty</p>):
+            {reduxCart==[] ? (<p className='container p-5 text-[1.5rm]'>Your cart is empty</p>):
             (<div className=' container flex flex-col items-start justify-start '>{reduxCart.map((el, index) => {
                 return <div key={index} className='flex md:flex-row flex-col gap-5  mt-5 md:justify-between items-center w-[100%]'>
                     <div className='flex overflow-hidden gap-2  items-center'>
