@@ -17,18 +17,28 @@ import { setcart } from '../../redux/slices/cartSlice';
 
 
 export default function () {
-    const [products, setProducts] = useState([])
+   
+     const [trendingproducts, setTrendingProducts] = useState([])
+     const [products, setProducts] = useState([])
     const dispatch = useDispatch()
-    const reduxcart = useSelector((store)=>store.cart.value)
+    const reduxcart = useSelector((store) => store.cart.value)
 
     useEffect(() => {
-        fetchProducts();
+        fetchTrendingProducts();
+        fetchproducts();
     }, [])
 
-    function fetchProducts() {
+    function fetchTrendingProducts() {
         axios.get('https://ecommerce-sagartmg2.vercel.app/api/products/trending')
             .then((response) => {
-                setProducts(response.data.data)
+                setTrendingProducts(response.data.data)
+            })
+    }
+
+    function fetchproducts() {
+        axios.get('https://ecommerce-sagartmg2.vercel.app/api/products?page=1&per_page=6')
+            .then((response) => {
+                setProducts(response.data.products)
             })
     }
 
@@ -38,7 +48,7 @@ export default function () {
         //  localStorage.setItem('cart', JSON.stringify(reduxcart))
         //  let data= localStorage.getItem('cart')
         // console.log(data);
-        
+
     }
 
     const settings = {
@@ -101,9 +111,9 @@ export default function () {
                         </div>
                     </div>
                 </div>
-                <div className='container my-20 flex flex-col gap-2'>
+                <div className='container my-20 flex flex-col gap-2 w-[90%]'>
                     <Slider {...settings}  >
-                        {products.map((el) => (
+                        {trendingproducts.map((el) => (
                             <div key={el._id} className=' w-[300px] h-[300px] bg-[#f3f3f3]  cursor-pointer'>
                                 <div className='overflow-hidden w-[100%] h-[200px]'>
                                     <img src={el.image} alt={el.name} className='w-[100%] h-[100%]' />
@@ -129,24 +139,30 @@ export default function () {
                 <div className='container flex flex-col  justify-center'>
 
                     <h1 className='text-primary-dark font-[700] text-[2rem] mx-auto'>Leatest Products</h1>
-                    <div className='flex gap-8 justify-center text-[#151875] '>
+                    <div className='flex gap-8 justify-center text-[#151875] md:text-[1rem] text-[0.7rem]'>
                         <p className='cursor-pointer hover:text-secondary'>New Arrival</p>
                         <p className='cursor-pointer hover:text-secondary'>Best Seller</p>
                         <p className='cursor-pointer hover:text-secondary'>Featured</p>
                         <p className='cursor-pointer hover:text-secondary '>Special Offer</p>
                     </div>
-                    <div className='my-[60px] grid-cols-custom '>
-                        {products.map((el) => (
-                            <div key={el._id} className='w-[100%] flex flex-col gap-[10px] items-center bg-[#f0f0f0] p-[20px] rounded-[6px]'>
-                                <div className='bg-[#F6F7FB] w-[200px] h-[200px] flex items-center justify-center'>
-                                    <img src={el.image} alt={el.name} className='w-[100%]' />
+                    <div className='my-[60px] grid-cols-custom max-w-[100%]'>
+                        {products.map((el) => {
+                            return  <div key={el._id} className='bg-[#ededed] p-2 overflow-hidden w-[300px] h-[360px]' >
+                                <img className=' w-[100%] h-[300px] rounded-md' src={el.image} alt="" />
+                                <div className='flex justify-between p-3'>
+                                <p className='text-[#151875]'>{el.name}</p>
+                                <div className='flex gap-2'>
+                                <p className='text-[#151875]'>Rs.{el.price}</p>
+                                <IoCartOutline onClick={() => { addToCart(el) }} className=' border bg-[green] rounded-[50%] text-white w-6 h-6 p-1 cursor-pointer ' />
                                 </div>
-                                <div className='flex justify-between w-[200px] '>
-                                    <p>{el.name}</p>
-                                    <p>{el.price}</p>
                                 </div>
-                            </div>
-                        ))}
+                               
+                                
+                        </div>
+                          
+                        })}
+
+                      
                     </div>
                 </div>
 

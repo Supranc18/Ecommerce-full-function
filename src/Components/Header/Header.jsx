@@ -7,13 +7,14 @@ import { LuPhoneCall } from 'react-icons/lu'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { setuser } from '../../redux/slices/userSlice'
-
+import axios from 'axios'
 
 
 export default function () {
 
   const [hamBurgerMenu, setHamBurgerMenu] = useState("hidden")
-  const [search, setSearch] = useState()
+  const [search, setSearch] = useState("")
+  console.log(search);
 
   const dispatch = useDispatch()
   let reduxUser = useSelector((store) => {
@@ -37,6 +38,7 @@ export default function () {
 
   function submithandle(e) {
     e.preventDefault()
+    axios.get(`https://ecommerce-sagartmg2.vercel.app/api/products?search_term=${search}`)
     setSearch(e.target.search.value)
   }
 
@@ -50,7 +52,7 @@ export default function () {
   return (
     <>
       <header>
-        <div className='bg-[#7E33E0]'>
+        <div className='bg-[#7E33E0] md:text-[1rem] text-[0.7rem]'>
           <div className='flex container text-[white] py-[14px] justify-between'>
             <div className='gap-[2px] flex flex-col md:flex-row  md:gap-[45px]'>
               <div className='flex items-center gap-[10px]'>
@@ -63,9 +65,9 @@ export default function () {
               </div>
             </div>
             <div className='flex items-center gap-[16px]'>
-              <div className='flex items-center'>{reduxUser ? (
+              <div className='flex items-center '>{reduxUser ? (
                 <>
-                  <div className='flex gap-2'>
+                  <div className='flex flex-col md:flex-row gap-2'>
                     <p className='flex items-center'>{reduxUser.name.toUpperCase()}
                       <CiUser />
                     </p>
@@ -81,7 +83,7 @@ export default function () {
 
               </div>
 
-              <Link to={'/cart'} className='flex items-center'><IoCartOutline className='text-[25px]' /><sup className={`bg-red-500 border w-4 h-4 rounded-[50%] text-[10px] flex justify-center items-center p-2  ${reduxCart.length == 0 ? "hidden" : "block"}`}>{reduxCart.length}</sup></Link>
+              <Link to={'/cart'} className='flex items-center'><IoCartOutline className='md:text-[25px]' /><sup className={`bg-red-500 border w-4 h-4 rounded-[50%] text-[10px] flex justify-center items-center p-2  ${reduxCart.length == 0 ? "hidden" : "block"}`}>{reduxCart.length}</sup></Link>
 
             </div>
           </div>
@@ -91,7 +93,7 @@ export default function () {
         <div className='container' >
           <div className={`flex flex-col py-[10px] lg:flex-row lg:justify-between lg:items-start `} >
             <div className='flex items-center justify-between'>
-              <p className=' text-[1.1rem] md:text-[1.5rem] lg:text-[2.1rem] font-[600]'>Hekto</p>
+            <Link to={'/'}> <p className=' text-[1.1rem] md:text-[1.5rem] lg:text-[2.1rem] font-[600]'>Hekto</p></Link>
               <button onClick={hamburgerhandle} className={`${hamBurgerMenu === 'hidden' ? 'block' : 'hidden'} lg:hidden `}>
                 <GiHamburgerMenu />
               </button>
@@ -103,7 +105,7 @@ export default function () {
                   <li className={`cursor-pointer hover:text-secondary`}><Link to={'/pages'}>Pages</Link></li>
                   <li className={`cursor-pointer hover:text-secondary `}> <Link to={'/products'}>Products</Link></li>
                   <li className={`cursor-pointer hover:text-[#FB2E86]`}> <Link to={'/blog'}>Blog</Link></li>
-                  <li className={`cursor-pointer hover:text-[#FB2E86]`}> <Link to={'/shop'}>Shop</Link></li>
+                  {reduxUser && <li className={`cursor-pointer hover:text-[#FB2E86]`}> <Link to={'/shop'}>Shop</Link></li>}
                   <li className={`cursor-pointer hover:text-[#FB2E86]`}> <Link to={'/contact'}>Contact</Link></li>
                 </ul>
                 <div>
