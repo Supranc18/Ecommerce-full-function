@@ -199,9 +199,9 @@ useEffect(()=>{
 
   if (isLoading) {
     return <>
-    <div className='h-[100vh] flex justify-center items-center'>
+    <div className='h-[100vh] flex justify-center items-center flex-col'>
     <p className='text-primary text-[2.5rem]'>Hekto</p>
-    loading.....
+    <p className='text-primary text-[1.5rem]'> loading.....</p>
     </div>
     </>
   }
