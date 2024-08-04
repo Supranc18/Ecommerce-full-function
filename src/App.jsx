@@ -198,7 +198,12 @@ useEffect(()=>{
 
 
   if (isLoading) {
-    return <>loading.....</>
+    return <>
+    <div className='h-[100vh] flex justify-center items-center'>
+    <p className='text-primary text-[2.5rem]'>Hekto</p>
+    loading.....
+    </div>
+    </>
   }
   
   return <> <RouterProvider router={router} />
