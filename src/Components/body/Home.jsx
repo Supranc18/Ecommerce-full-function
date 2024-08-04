@@ -41,15 +41,15 @@ export default function () {
                 setProducts(response.data.products)
             })
     }
-
-    const addToCart = (el) => {
-        dispatch(setcart(el))
-        console.log(reduxcart);
-        //  localStorage.setItem('cart', JSON.stringify(reduxcart))
-        //  let data= localStorage.getItem('cart')
-        // console.log(data);
-
+    const addToCart = (el) => {     
+     dispatch(setcart(el))
     }
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(reduxcart));
+    }, [reduxcart]);
+   
+    
+    
 
     const settings = {
         dots: true,

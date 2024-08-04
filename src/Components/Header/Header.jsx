@@ -14,7 +14,7 @@ export default function () {
 
   const [hamBurgerMenu, setHamBurgerMenu] = useState("hidden")
   const [search, setSearch] = useState("")
-  console.log(search);
+
 
   const dispatch = useDispatch()
   let reduxUser = useSelector((store) => {

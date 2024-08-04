@@ -16,17 +16,20 @@ import Login from './Components/Login/Login';
 
 import Contact from './Components/Contact/Contact';
 import SignUp from './Components/Login/SignUp';
-import Products from './Components/body/Products';
+import Products from './Components/body/AddProducts';
 import RootLayout from './Components/RootLayout';
 import Home from './Components/body/Home';
 import { useDispatch, useSelector } from 'react-redux';
 import { setuser } from './redux/slices/userSlice';
 import Cart from './Components/Cart/Cart';
-import { setcart } from './redux/slices/cartSlice';
+import {  setLocalCart } from './redux/slices/cartSlice';
 import AdminLayout from './Components/AdminLayout';
 import axios from 'axios';
-import Addproducts from './Components/Admin/Addproducts';
-import AdminSideNav from './Components/Admin/AdminSideNav';
+import Addproducts from './Components/Admin/AdminAddproducts';
+import AdminProducts from './Components/Admin/AdminProducts';
+import PageNotFound from './PageNotFound';
+import Adminhome from './Components/Admin/Adminhome';
+
 
 
 
@@ -66,11 +69,11 @@ else {
 useEffect(()=>{
   
   let cart =localStorage.getItem('cart')
- 
   if (cart) {
-    dispatch(setcart(JSON.parse(cart))) 
+    dispatch(setLocalCart(JSON.parse(cart))) 
   }
   },[])
+ 
 
 
 
@@ -129,6 +132,12 @@ useEffect(()=>{
             <Contact/>
           </>,
         },
+        {
+          path: "*",
+          element: <>
+            <PageNotFound/>
+          </>,
+        },
 
       ]
     }
@@ -141,12 +150,45 @@ useEffect(()=>{
         element: <AdminLayout/>,
         children:[
           {
-          path: "addproduct",
-          element: (
-            <Addproducts/>
-          ),
-          
-        }
+            path: "/",
+            element: 
+              <Adminhome/>
+            ,  
+          },
+          {
+            path: "products",
+              children:[
+                {
+                path:"",
+                element: (
+                  <AdminProducts/>
+                ), 
+              },
+              {
+                path: "add",
+                element: (
+                  <Addproducts/>
+                ),
+                
+              },
+              {
+                path: "edit/:slug",
+                element: (
+                  <Addproducts/>
+                ),
+                
+              },
+
+              ]
+          },
+        
+      
+        {
+          path: "*",
+          element: <>
+            <PageNotFound/>
+          </>,
+        },
           
         ]
       }
