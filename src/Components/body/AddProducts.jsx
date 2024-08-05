@@ -1,11 +1,14 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { IoCartOutline } from 'react-icons/io5'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { setcart } from '../../redux/slices/cartSlice'
 
 export default function Products() {
 
     const [products, setProducts] = useState([])
+    const dispatch = useDispatch()
+    const reduxcart = useSelector((store) => store.cart.value)
 
     const fetchProducts = () => {
         axios.get('https://ecommerce-sagartmg2.vercel.app/api/products')
@@ -18,6 +21,14 @@ export default function Products() {
     useEffect(() => {
         fetchProducts()
     }, [])
+
+    const addToCart = (el) => {     
+        dispatch(setcart(el))
+       }
+       useEffect(() => {
+           localStorage.setItem('cart', JSON.stringify(reduxcart));
+       }, [reduxcart]);
+      
 
     return (
         <>
