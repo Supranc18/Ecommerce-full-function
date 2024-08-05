@@ -29,6 +29,7 @@ import Addproducts from './Components/Admin/AdminAddproducts';
 import AdminProducts from './Components/Admin/AdminProducts';
 import PageNotFound from './PageNotFound';
 import Adminhome from './Components/Admin/Adminhome';
+import Pages from './Components/body/Pages';
 
 
 
@@ -111,6 +112,12 @@ useEffect(()=>{
           path: "cart",
           element: <>
             <Cart/>
+          </>,
+        },
+        {
+          path: "page",
+          element: <>
+            <Pages/>
           </>,
         },
         {

@@ -5,17 +5,17 @@ import { IoMdClose } from 'react-icons/io'
 import { IoCartOutline } from 'react-icons/io5'
 import { LuPhoneCall } from 'react-icons/lu'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { setuser } from '../../redux/slices/userSlice'
 import axios from 'axios'
+import { setproduct } from '../../redux/slices/productSlice'
 
 
 export default function () {
 
   const [hamBurgerMenu, setHamBurgerMenu] = useState("hidden")
-  const [search, setSearch] = useState("")
-
-
+  const [search, setSearch] = useState("bed")
+  const navigat = useNavigate()
   const dispatch = useDispatch()
   let reduxUser = useSelector((store) => {
     return store.user.value
@@ -33,14 +33,28 @@ export default function () {
 
   function hamburgerClose() {
     setHamBurgerMenu("hidden")
+   
 
   }
 
   function submithandle(e) {
     e.preventDefault()
-    axios.get(`https://ecommerce-sagartmg2.vercel.app/api/products?search_term=${search}`)
-    setSearch(e.target.search.value)
+    navigat("/page")
+    setSearch(e.target.search.value) 
+    e.target.search.value=""  
+    
+
   }
+
+  useEffect(()=>{
+    axios.get(`https://ecommerce-sagartmg2.vercel.app/api/products?search_term=${search}`)
+    .then((res)=>{
+      dispatch(setproduct(res.data.products))
+    }).catch((err)=>{
+      console.error(err);
+    })
+  },[search,dispatch])
+ 
 
 
   const logoutHandle = () => {
@@ -102,7 +116,7 @@ export default function () {
               <div className={` ${hamBurgerMenu} bg-[#f3f3f3]  p-[10px] mx-[auto] rounded-[8px] justify-between items-start animate-increase overflow-hidden lg:flex lg:bg-[white] lg:animate-none`}>
                 <ul className={`lg:flex lg:gap-[40px] `}>
                   <li className={`cursor-pointer hover:text-secondary `}> <Link to={'/'}>Home</Link> </li>
-                  <li className={`cursor-pointer hover:text-secondary`}><Link to={'/pages'}>Pages</Link></li>
+                  <li className={`cursor-pointer hover:text-secondary`}><Link to={'/page'}>Pages</Link></li>
                   <li className={`cursor-pointer hover:text-secondary `}> <Link to={'/products'}>Products</Link></li>
                   <li className={`cursor-pointer hover:text-[#FB2E86]`}> <Link to={'/blog'}>Blog</Link></li>
                   {reduxUser && <li className={`cursor-pointer hover:text-[#FB2E86]`}> <Link to={'/shop'}>Shop</Link></li>}

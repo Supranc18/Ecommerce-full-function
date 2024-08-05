@@ -1,29 +1,31 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { IoCartOutline } from 'react-icons/io5'
+import { useDispatch, useSelector } from 'react-redux'
+import { setcart } from '../../redux/slices/cartSlice'
 
 
-export default function Products() {
+export default function Pages() {
 
-    const [products, setProducts] = useState([])
+    const reduxcart = useSelector((store) => store.cart.value)
+    const dispatch = useDispatch()
+    let searchProducts = useSelector((store) => {
+        return store.product.value
+    })
 
-    const fetchProducts = () => {
-        axios.get('https://ecommerce-sagartmg2.vercel.app/api/products')
-            .then((response) => {
-                setProducts(response.data.products)
-
-            })
-    }
-
-    useEffect(() => {
-        fetchProducts()
-    }, [])
+    const addToCart = (el) => {     
+        dispatch(setcart(el))
+       }
+       useEffect(() => {
+           localStorage.setItem('cart', JSON.stringify(reduxcart));
+       }, [reduxcart]);
+      
+  
 
     return (
         <>
             <div className='container'>
                 <div className='my-[60px] grid-cols-custom max-w-[100%] !grid !gap-4'>
-                    {products.map((el) => {
+                    {searchProducts?.map((el) => {
                         return <div key={el._id} className='bg-[#ededed] p-2 overflow-hidden w-[100%] h-[280px]' >
                             <img className=' w-[100%] h-[200px] rounded-md' src={el.image} alt="" />
                             <div className='flex justify-between p-3'>
@@ -35,16 +37,9 @@ export default function Products() {
                             </div>
 
                         </div>
-
-
-
                     })}
-
                 </div>
             </div>
-
-
-
         </>
     )
 }
