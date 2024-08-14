@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { IoCartOutline } from 'react-icons/io5'
 import { useDispatch, useSelector } from 'react-redux'
 import { setcart } from '../../redux/slices/cartSlice'
+import { toast } from 'react-toastify'
 
 export default function Products() {
 
@@ -24,6 +25,7 @@ export default function Products() {
 
     const addToCart = (el) => {     
         dispatch(setcart(el))
+        toast.success("added to cart sucessfully")
        }
        useEffect(() => {
            localStorage.setItem('cart', JSON.stringify(reduxcart));

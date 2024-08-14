@@ -46,9 +46,11 @@ export default function Login({setUser}) {
               }
               
             })
-            setButtonDisable(false)
+            
             setFieleErr(newError)
           } 
+          toast.error("Invalid credentials")
+          setButtonDisable(false)
           }
         
       });
