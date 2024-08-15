@@ -20,7 +20,7 @@ export default function Cart() {
     }
 
     function orderCheckout() {
-        // Implement order checkout logic here
+        
     }
 
    

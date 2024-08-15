@@ -4,7 +4,7 @@ import { FaFacebook, FaInstagramSquare, FaTwitterSquare } from 'react-icons/fa'
 export default function () {
     return (
         <>
-            <div className='bg-[#EEEFFB]  bottom-0 w-[100vw] z-[]'>
+            <div className='bg-[#EEEFFB]  bottom-0 w-[100%] z-[]'>
                 <div className='bg-[#EEEFFB]'>
                     <div className='container flex flex-col items-center gap-4 py-[75px] text-[#8A8FB9] text-[0.7rem] lg:flex-row lg:justify-between lg:items-start'>
                         <div className='flex flex-col items-center justify-center'>
