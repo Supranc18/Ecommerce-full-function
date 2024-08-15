@@ -147,7 +147,7 @@ export default function () {
                         <p className='cursor-pointer hover:text-secondary'>Featured</p>
                         <p className='cursor-pointer hover:text-secondary '>Special Offer</p>
                     </div>
-                    <div className='my-[60px] grid-cols-custom max-w-[100%]'>
+                    <div className='container my-[60px] grid-cols-custom max-w-[100%]'>
                         {products.map((el) => {
                             return  <div key={el._id} className='bg-[#ededed] p-2 overflow-hidden w-[300px] h-[360px]' >
                                 <img className=' w-[100%] h-[300px] rounded-md' src={el.image} alt="" />
